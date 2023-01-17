@@ -1,3 +1,27 @@
+# Proxy Pool Server
+
+## Usage
+- get proxy list, verify
+```
+python GetProxyFromSocks-Checkerproxy.py
+```
+
+- start proxy pool http server
+
+```
+python .\ProxyPool.py
+```
+
+- pick a proxy
+
+```
+curl http://127.0.0.1:8888
+```
+
+
+
+
+
 # 免费socks5/socks4/https/http代理获取和验证
 
 ## 目录
