@@ -2,6 +2,7 @@ import requests
 import re
 import os
 import json
+import datetime
 
 # You can run python from the website https://repl.it/languages
 # requirements:
@@ -13,24 +14,24 @@ from multiprocessing import Pool, Manager
 
 url = 'https://checkerproxy.net/api/archive/2023-01-17'
 
-proxy_file =  os.path.join(os.getcwd(), 'proxys.list')
+date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
+proxy_file =  os.path.join(os.getcwd(), date_str)
 
-def test_ip(ip,port):
+def test_ip(ip,port,proxy_file):
     try:
         proxy = {
             "http": "socks5://"+ip+':'+port,
             "https": "socks5://"+ip+':'+port
             }
         url = "http://www.baidu.com/"
-        req = requests.get(url, proxies=proxy)
-        # print (req)
+        req = requests.get(url, proxies=proxy, timeout=2)
+        print (ip+':'+port)
+        with open(proxy_file, 'a+') as f:
+            f.write(ip+':'+port+"\n")
+    except ConnectTimout:
+        print()
     except Exception as err:
         print(err, type(err))
-    else:
-        print (ip+':'+port)
-        save=open(proxy_file,'a+')
-        save.write(ip+':'+port+"\n")
-        save.close()
 
 def save_proxy(json_str):
     proxy_list = json.loads(json_str)
@@ -43,7 +44,7 @@ def save_proxy(json_str):
         rip = proxy_dic['addr'].split(':')[0]
         rport = proxy_dic['addr'].split(':')[1]
         # print(rip, rport, proxy_dic['timeout'], proxy_dic['type'])
-        p.apply_async(test_ip,args=(rip,rport))
+        p.apply_async(test_ip,args=(rip,rport,proxy_file))
     p.close()
     p.join()
 

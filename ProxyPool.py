@@ -6,7 +6,7 @@ import os
 data = {'result': 'this is a test'}
 host = ('0.0.0.0', 8888)
 
-proxy_file =  os.path.join(os.getcwd(), 'proxys.list')
+proxy_file =  os.path.join(os.getcwd(), 'proxy.list')
 g_proxys = []
 
  
