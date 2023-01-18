@@ -1,5 +1,9 @@
 # Proxy Pool Server
 
+## Prepare
+pip install pysocks
+pip install requests
+
 ## Usage
 - get proxy list, verify
 ```
